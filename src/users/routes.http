@@ -1,0 +1,43 @@
+@id = 1
+
+GET http://localhost:3000/users
+Accept: application/json
+
+###
+GET http://localhost:3000/users/{{id}}
+Accept: application/json
+
+###
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Thanh Dong 1",
+  "role": "USER"
+}
+
+###
+PATCH http://localhost:3000/users/{{id}}
+Content-Type: application/json
+
+{
+  "name": "Pham Thanh Dong"
+}
+
+###
+DELETE http://localhost:3000/users/{{id}}
+
+###
+POST http://localhost:3000/users/1/posts
+Content-Type: application/json
+
+{
+  "title": "This is post created by Thanh Dong",
+  "content": "This is the content of post.",
+  "userId": 1
+}
+
+###
+GET http://localhost:3000/users/{{id}}/posts
+Accept: application/json
+

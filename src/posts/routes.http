@@ -1,0 +1,19 @@
+@id = 1
+
+###
+GET http://localhost:3000/posts
+Accept: application/json
+
+###
+GET http://localhost:3000/posts/{{id}}
+Accept: application/json
+
+###
+POST http://localhost:3000/posts
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Hello Thanh Dong 1",
+  "userId": 1
+}
