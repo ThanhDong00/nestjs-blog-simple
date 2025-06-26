@@ -8,14 +8,14 @@ export class User extends Model<User> {
     allowNull: false,
     unique: true,
   })
-  name: string;
+  declare name: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
     defaultValue: 'USER',
   })
-  role: string;
+  declare role: string;
 
   @HasMany(() => Post)
   posts: Post[];

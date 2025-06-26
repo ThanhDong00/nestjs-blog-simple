@@ -6,14 +6,19 @@ import {
   Patch,
   Param,
   Delete,
+  UseFilters,
+  ForbiddenException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreatePostDto } from 'src/posts/dto/create-post.dto';
 import { PostsService } from 'src/posts/posts.service';
+import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 
 @Controller('users')
+// Use filter for all "users" routes
+@UseFilters(HttpExceptionFilter)
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
@@ -26,13 +31,17 @@ export class UsersController {
   }
 
   @Get()
+  // Use filter for one route
+  @UseFilters(HttpExceptionFilter)
   async findAll() {
     return await this.usersService.findAll();
+    // throw new ForbiddenException('You are not allowed to access this resource');
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.usersService.findOne(id);
+    // throw new ForbiddenException('You are not allowed to access this resource');
   }
 
   @Patch(':id')
