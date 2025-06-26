@@ -40,7 +40,7 @@ export class UsersService {
     return this.userModel.findAll();
   }
 
-  async findOne(id: string): Promise<User | null> {
+  async findOne(id: number): Promise<User | null> {
     const user = await this.userModel.findOne({
       where: { id },
     });
@@ -55,7 +55,7 @@ export class UsersService {
     return user;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     try {
       const user = await this.findOne(id);
 
@@ -76,7 +76,7 @@ export class UsersService {
     }
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: number): Promise<void> {
     try {
       const user = await this.findOne(id);
 

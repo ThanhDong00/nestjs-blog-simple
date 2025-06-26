@@ -12,8 +12,7 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "Thanh Dong 1",
-  "role": "USER"
+  "name": "15th User"
 }
 
 ###
