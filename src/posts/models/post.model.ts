@@ -14,20 +14,20 @@ export class Post extends Model<Post> {
     type: DataType.STRING,
     allowNull: false,
   })
-  title: string;
+  declare title: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: true,
   })
-  content: string;
+  declare content: string;
 
   @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  userId: number;
+  declare userId: number;
 
   @BelongsTo(() => User)
   user: User;

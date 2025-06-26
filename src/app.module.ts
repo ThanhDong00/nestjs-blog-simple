@@ -5,9 +5,10 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { PostsModule } from './posts/posts.module';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [DatabaseModule, UsersModule, PostsModule],
+  imports: [DatabaseModule, UsersModule, PostsModule, AuthModule],
   providers: [
     {
       // Register the global exception filter

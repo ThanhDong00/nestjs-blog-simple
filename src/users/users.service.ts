@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from './models/user.model';
-import { CreatePostDto } from 'src/posts/dto/create-post.dto';
+import { Post } from 'src/posts/models/post.model';
 
 @Injectable()
 export class UsersService {
@@ -43,6 +43,12 @@ export class UsersService {
   async findOne(id: number): Promise<User | null> {
     const user = await this.userModel.findOne({
       where: { id },
+      include: [
+        {
+          model: Post,
+          as: 'posts',
+        },
+      ],
     });
 
     if (!user) {
@@ -53,6 +59,28 @@ export class UsersService {
     }
 
     return user;
+  }
+
+  async findByName(name: string): Promise<User> {
+    try {
+      const user = await this.userModel.findOne({
+        where: { name },
+      });
+
+      if (!user) {
+        throw new HttpException(
+          `User with name ${name} not found`,
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        error.message || 'Failed to find user by name',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
