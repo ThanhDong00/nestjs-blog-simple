@@ -11,6 +11,7 @@ import {
   ParseIntPipe,
   ValidationPipe,
   DefaultValuePipe,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -18,10 +19,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { CreatePostDto } from 'src/posts/dto/create-post.dto';
 import { PostsService } from 'src/posts/posts.service';
 import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
+import { LoggingInterceptor } from 'src/common/interceptors/logging.interceptor';
+import { TransformInterceptor } from 'src/common/interceptors/transform.interceptor';
 
 @Controller('users')
 // Use filter for all "users" routes
 @UseFilters(HttpExceptionFilter)
+// Use interceptor for all "users" routes
+@UseInterceptors(LoggingInterceptor, TransformInterceptor)
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
