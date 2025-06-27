@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Request,
@@ -15,14 +16,18 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { Public } from 'src/common/decorators/public.decorator';
 import { UserAccessGuard } from 'src/common/guards/user-access.guard';
+import { User } from 'src/common/decorators/user.decorator';
 
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Post()
-  async create(@Request() req: any, @Body() createPostDto: CreatePostDto) {
-    return this.postsService.create(createPostDto, parseInt(req.user.sub, 10));
+  async create(
+    @User('sub') userId: number,
+    @Body() createPostDto: CreatePostDto,
+  ) {
+    return this.postsService.create(createPostDto, userId);
   }
 
   @Public()
@@ -40,14 +45,10 @@ export class PostsController {
   @Patch(':id')
   async update(
     @Param('id') id: number,
-    @Request() req: any,
+    @User('sub', ParseIntPipe) userId: number,
     @Body(ValidationPipe) updatePostDto: UpdatePostDto,
   ) {
-    return this.postsService.update(
-      id,
-      parseInt(req.user.sub, 10),
-      updatePostDto,
-    );
+    return this.postsService.update(id, userId, updatePostDto);
   }
 
   @Delete(':id')

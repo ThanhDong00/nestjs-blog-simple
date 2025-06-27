@@ -64,11 +64,12 @@ Content-Type: application/json
 Authorization: Bearer {{jwt}}
 
 {
-  "title": "276. This is a post 2. Count 1",
-  "content": "276. This is the content of the post 2. Count 1"
+  "title": "276. This is a post 3. Count 1",
+  "content": "276. This is the content of the post 3. Count 1"
 }
 
 ###
 GET http://localhost:3000/users/{{id}}/posts
 Accept: application/json
+Authorization: Bearer {{jwt}}
 

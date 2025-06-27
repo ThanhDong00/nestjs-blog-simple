@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { Public } from 'src/common/decorators/public.decorator';
+import { User } from 'src/common/decorators/user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -32,8 +33,8 @@ export class AuthController {
 
   // get me
   @Get('me')
-  async getMe(@Request() req) {
-    const user = await this.authService.getMe(req.user.sub);
+  async getMe(@User('sub') userId: number) {
+    const user = await this.authService.getMe(userId);
 
     return user;
   }

@@ -7,7 +7,7 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-  "name": "Pham Thanh Dong"
+  "name": "Thanh Dong"
 }
 
 ###
@@ -22,7 +22,7 @@ Accept: application/json
 
 ###
 # @name updatePost
-PATCH  http://localhost:3000/posts/4
+PATCH  http://localhost:3000/posts/7
 Content-Type: application/json
 Authorization: Bearer {{jwt}}
 
