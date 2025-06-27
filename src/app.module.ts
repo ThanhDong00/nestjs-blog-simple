@@ -3,9 +3,11 @@ import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { PostsModule } from './posts/posts.module';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { AuthModule } from './auth/auth.module';
+import { RolesGuard } from './common/guards/roles.guard';
+import { AuthGuard } from './common/guards/auth.guard';
 
 @Module({
   imports: [DatabaseModule, UsersModule, PostsModule, AuthModule],
@@ -15,6 +17,14 @@ import { AuthModule } from './auth/auth.module';
       // This use class to provide the HttpExceptionFilter
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

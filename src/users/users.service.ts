@@ -104,7 +104,7 @@ export class UsersService {
     }
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number): Promise<string> {
     try {
       const user = await this.findOne(id);
 
@@ -116,6 +116,7 @@ export class UsersService {
       }
 
       await user.destroy();
+      return `User with id ${id} deleted successfully`;
     } catch (error) {
       throw new HttpException(
         error.message || 'Failed to delete user',

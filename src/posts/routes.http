@@ -1,12 +1,41 @@
-@id = 1
+@jwt = {{login.response.body.access_token}}
+@id = 4
 
 ###
+# @name login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "name": "Pham Thanh Dong"
+}
+
+###
+# @name getAllPosts
 GET http://localhost:3000/posts
 Accept: application/json
 
 ###
+# @name getOnePost
 GET http://localhost:3000/posts/{{id}}
 Accept: application/json
+
+###
+# @name updatePost
+PATCH  http://localhost:3000/posts/4
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+{
+  "title": "This is post created by Pham Thanh Dong. Count: 3",
+  "content": "This is the content of post."
+}
+
+###
+# @name deletePost
+DELETE http://localhost:3000/posts/3
+Accept: application/json
+Authorization: Bearer {{jwt}}
 
 ###
 POST http://localhost:3000/posts

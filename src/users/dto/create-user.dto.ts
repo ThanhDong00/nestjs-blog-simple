@@ -1,4 +1,5 @@
 import { IsOptional, IsString } from 'class-validator';
+import { Role } from 'src/common/constants/enum';
 
 export class CreateUserDto {
   @IsString()
@@ -6,5 +7,5 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsString()
-  role?: string;
+  role?: Role;
 }

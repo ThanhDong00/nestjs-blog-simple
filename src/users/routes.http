@@ -1,11 +1,27 @@
-@id = 1
-
-GET http://localhost:3000/users
-Accept: application/json
+@id = 2
+@jwt = {{login.response.body.access_token}}
 
 ###
+# @name login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "name": "Thanh Dong"
+}
+
+###
+# @name getAllUsers
+GET http://localhost:3000/users
+Accept: application/json
+Authorization: Bearer {{jwt}}
+
+###
+# @name getOneUser
+# Only admin or the user themselves can access this route
 GET http://localhost:3000/users/{{id}}
 Accept: application/json
+Authorization: Bearer {{jwt}}
 
 ###
 POST http://localhost:3000/users
@@ -16,24 +32,40 @@ Content-Type: application/json
 }
 
 ###
-PATCH http://localhost:3000/users/{{id}}
+# @name updateUser
+# This route is for the current user
+PATCH http://localhost:3000/users
 Content-Type: application/json
+Authorization: Bearer {{jwt}}
 
 {
-  "name": "Pham Thanh Dong"
+  "name": "Thanh Dong"
 }
 
 ###
-DELETE http://localhost:3000/users/{{id}}
-
-###
-POST http://localhost:3000/users/1/posts
+# @name updateUserByAdmin
+# This route is for admin to update user by id
+PATCH http://localhost:3000/users/1
 Content-Type: application/json
+Authorization: Bearer {{jwt}}
 
 {
-  "title": "This is post created by Thanh Dong",
-  "content": "This is the content of post.",
-  "userId": 1
+  "name": "Thanh Dong"
+}
+
+###
+DELETE http://localhost:3000/users/14
+Accept: application/json
+Authorization: Bearer {{jwt}}
+
+###
+POST http://localhost:3000/users/2/posts
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+{
+  "title": "276. This is a post 2. Count 1",
+  "content": "276. This is the content of the post 2. Count 1"
 }
 
 ###

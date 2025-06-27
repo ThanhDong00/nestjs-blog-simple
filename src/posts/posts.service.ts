@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Post } from './models/post.model';
 import { User } from 'src/users/models/user.model';
@@ -12,9 +17,12 @@ export class PostsService {
     private readonly postModel: typeof Post,
   ) {}
 
-  async create(createPostDto: CreatePostDto, id: string = ''): Promise<Post> {
+  async create(createPostDto: CreatePostDto, id: number): Promise<Post> {
     try {
-      return await this.postModel.create(createPostDto as Post);
+      return await this.postModel.create({
+        ...createPostDto,
+        userId: id,
+      } as Post);
     } catch (error) {
       throw new HttpException(
         error.message || 'Failed to create post',
@@ -53,9 +61,22 @@ export class PostsService {
     }
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto): Promise<Post> {
+  async update(
+    id: number,
+    userId: number,
+    updatePostDto: UpdatePostDto,
+  ): Promise<Post> {
+    console.log('UpdateService: ', id, userId, updatePostDto);
+
     try {
       const post = await this.findOne(id);
+      // Check if the post belongs to the user
+      if (post.userId !== userId) {
+        throw new ForbiddenException(
+          'You do not have permission to update this post',
+        );
+      }
+
       const updatedPost = await post.update(updatePostDto as Post);
 
       return updatedPost;

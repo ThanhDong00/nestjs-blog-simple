@@ -1,5 +1,4 @@
 @jwt = {{login.response.body.access_token}}
-@userId = 1
 
 ###
 # @name register
@@ -7,7 +6,7 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-  "name": "newuser"
+  "name": "276 2"
 }
 
 ###
@@ -16,9 +15,11 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-  "name": "newuser"
+  "name": "Pham Thanh Dong"
 }
 
 ###
 # @name getMe
-GET http://localhost:3000/auth/me?id={{userId}}
+GET http://localhost:3000/auth/me
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
